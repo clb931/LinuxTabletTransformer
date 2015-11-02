@@ -1,0 +1,93 @@
+[Version]
+Signature = "$Windows NT$"
+Class = Net
+ClassGUID = {4d36e972-e325-11ce-bfc1-08002be10318}
+Provider = %ProviderName%
+DriverVer = 03/09/2011,1.0.0.0
+CatalogFile = asus_tethering.cat
+
+[Manufacturer]
+%ProviderName% = RNDISDevices,NTx86,NTamd64,NTia64
+
+;for x86 architecture
+[RNDISDevices.NTx86]
+; TF101
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E2F
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E3F&MI_00
+
+; SL101
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E02
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E03&MI_00
+
+; A60
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4D02
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4D03&MI_00
+
+;for x64 architecture
+[RNDISDevices.NTamd64]
+; TF101
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E2F
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E3F&MI_00
+
+; SL101
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E02
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E03&MI_00
+
+; A60
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4D02
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4D03&MI_00
+
+; Decoration for ia64 architecture
+[RndisDevices.NTia64]
+; TF101
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E2F
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E3F&MI_00
+
+; SL101
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E02
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4E03&MI_00
+
+; A60
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4D02
+%RNDISDevices% = RNDIS.NT.5.1, USB\VID_0B05&PID_4D03&MI_00
+
+; This is the common setting for setup
+[ControlFlags]
+ExcludeFromSelect=*
+
+; DDInstall section
+; References the in-build Netrndis.inf
+[RNDIS.NT.5.1]
+Characteristics = 0x84
+BusType         = 15
+include         = netrndis.inf
+needs           = Usb_Rndis.ndi
+AddReg          = usb_rndis.Reg, Rndis_AddReg_common
+
+; DDInstal.Services section
+[RNDIS.NT.5.1.Services]
+include     = netrndis.inf
+needs       = Usb_Rndis.ndi.Services
+
+[usb_rndis.Reg]
+HKR, Ndi,               Service,        0, "USB_RNDIS"
+HKR, Ndi\Interfaces,    UpperRange,     0, "ndis5" 
+HKR, Ndi\Interfaces,    LowerRange,     0, "ethernet"
+
+; Optional registry settings. You can modify as needed.
+[RNDIS_AddReg_common] 
+HKR, NDI\params\NetworkAddress, ParamDesc,  0, %NetworkAddress%
+HKR, NDI\params\NetworkAddress, type,       0, "edit"
+HKR, NDI\params\NetworkAddress, LimitText,  0, "12"
+HKR, NDI\params\NetworkAddress, UpperCase,  0, "1"
+HKR, NDI\params\NetworkAddress, default,    0, " "
+HKR, NDI\params\NetworkAddress, optional,   0, "1"
+
+; No sys copyfiles - the sys files are already in-build 
+; (part of the operating system).
+
+; Modify these strings for your device as needed.
+[Strings]
+ProviderName = "ASUSTeK COMPUTER INC."
+NetworkAddress = "Network Address"
+RNDISDevices = "ASUS Android USB Ethernet/RNDIS"

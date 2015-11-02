@@ -1,0 +1,57 @@
+;
+; Installation inf for devices supporting Media Transfer Protocol (MTP)
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=WPD
+ClassGUID={EEC5AD98-8080-425f-922A-DABF3DE3F69A}
+Provider=%Provider%
+DriverVer=02/26/2011,1.0.0.0
+CatalogFile=asus_wpdmtp.cat
+
+[Manufacturer]
+%Provider%=ASUS, NTx86, NTamd64
+
+[ASUS.NTx86]
+; TF101
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E0F
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E1F&MI_00
+
+; SL101
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E00
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E01&MI_00
+
+[ASUS.NTamd64]
+; TF101
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E0F
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E1F&MI_00
+
+; SL101
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E00
+%ASUS.MTP.DeviceDesc%=ASUS.Install, USB\VID_0B05&PID_4E01&MI_00
+
+[ASUS.Install]
+Include = wpdmtp.inf, WINUSB.INF
+Needs   = WPD.MTP, WINUSB.NT
+
+[ASUS.Install.hw]
+Include = wpdmtp.inf
+Needs   = WPD.MTP.Registration
+
+[ASUS.Install.Services]
+Include = wpdmtp.inf
+Needs   = WPD.MTP.Services
+
+[ASUS.Install.CoInstallers]
+Include = wpdmtp.inf
+Needs = WPD.MTP.CoInstallers
+
+[ASUS.Install.Wdf]
+Include = wpdmtp.inf
+Needs = WPD.MTP.Wdf
+UmdfServiceOrder=WpdMtpDriver
+
+[Strings]
+Provider="ASUSTeK COMPUTER INC."
+ASUS.MTP.DeviceDesc="ASUS Android MTP Device"
